@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 class Item(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
