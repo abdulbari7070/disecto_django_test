@@ -12,11 +12,12 @@ class ItemSerializer(ModelSerializer):
 class PurchaseItemSerializer(ModelSerializer):
     class Meta:
         model = PurchaseItems
-        fields = ('item', 'quantity')
+        fields = ('order', 'item', 'quantity')
+        read_only_fields = ('order',)
 
 
 class PurchaseListSerializer(ModelSerializer):
-    item_list = PurchaseItemSerializer(many=True)
+    item_list = PurchaseItemSerializer(many=True, write_only=True)
 
     class Meta:
         model = PurchaseList
@@ -27,13 +28,24 @@ class PurchaseListSerializer(ModelSerializer):
         purchase_item_data = validated_data.pop("item_list")
         order = PurchaseList.objects.create(**validated_data)
         for each_item in purchase_item_data:
-            each_item["item"] = each_item["item"].id
-            purchase_item = PurchaseItems(order=order)
-            # import ipdb; ipdb.set_trace()
-            item_list_serializer = PurchaseItemSerializer(purchase_item, data=each_item)
-            if item_list_serializer.is_valid():
-                item_list_serializer.save()
-            # else:
-            #     raise ValidationError(item_list_serializer.errors)
+            item = PurchaseItems.objects.create(order=order, **each_item)
         return order
+
+    # @transaction.atomic()
+    # def create(self, validated_data):
+    #     purchase_item_data = validated_data.pop("item_list")
+    #     order = PurchaseList.objects.create(**validated_data)
+    #     for each_item in purchase_item_data:
+    #         # each_item["item"] = each_item["item"].id
+    #         # purchase_item = PurchaseItems(order=order)
+    #         # PurchaseItems.objects.create(order=order, **each_item)
+    #         # import ipdb; ipdb.set_trace()
+    #         item_list_serializer = PurchaseItemSerializer(order=order, **each_item)
+
+    #         # item_list_serializer = PurchaseItemSerializer(purchase_item, **each_item)
+    #         if item_list_serializer.is_valid():
+    #             item_list_serializer.save()
+    #         # else:
+    #         #     raise ValidationError(item_list_serializer.errors)
+    #     return order
 
