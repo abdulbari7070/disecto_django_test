@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-5 offset-7">
+                <p><strong>INVOICE :</strong> #{{ invoice_id }}</p>
+            </div>
+            <div class="col-6 mt-5">
+                <h5>Customer Name : {{ purchase_list.user.first_name }}</h5>
+                {% comment %} <p> Phone : {{ puchase_list.user.phone_number }} {% endcomment %}
+                <p><strong>Address :</strong> {{ purchase_list.address }}, </br>
+                {{ purchase_list.city }}, {{ purchase_list.state }}, {{ purchase_list.zipcode }}</p>
+            </div>
+            <div class="col-5 offset-1 mt-5">
+                <h4>ABC COMPANY PVT LTD.</h4>
+                <p> +91 9876543210 </br> Address Line One, </br> City, State, Pincode</p>
+
+            </div>
+            
+            <table class="table mt-5">
+                <tr>
+                    <th>Item / Description</th>
+                    <th>Price per unit</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+
+                {% for item in purchase_list.item_list %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>ABC</td>
+                    <td>ABC</td>
+                    <td>ABC</td>
+                </tr>
+                {% endfor %}
+                
+            </table>
+        
+        </div>
+    </div>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>
