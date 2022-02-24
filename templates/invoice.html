@@ -36,14 +36,17 @@
                     <th>Price</th>
                 </tr>
 
-                {% for item in purchase_list.item_list %}
+                {% for item in purchase_list.items.all %}
                 <tr>
-                    <td>{{ item.id }}</td>
-                    <td>ABC</td>
-                    <td>ABC</td>
-                    <td>ABC</td>
+                    <td>{{ item.item.name }}</td>
+                    <td>&#8377; {{ item.item.price }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>&#8377; {% widthratio item.quantity 1 item.item.price %}</td>
                 </tr>
                 {% endfor %}
+                <tr>
+                    <th colspan="5">Total : &#8377; {{ total_price }}</th>
+                </tr>
                 
             </table>
         

@@ -33,20 +33,21 @@ def geeks_view(request):
 	# render function takes argument - request
 	# and return HTML as response
     purchase_list = PurchaseList.objects.filter(id=28).first()
-    return render(request, "invoice.html", {"purchase_list": purchase_list, "invoice_id": str(purchase_list.id).zfill(10)})
+
+    return render(request, "invoice.html", {"purchase_list": purchase_list, "invoice_id": str(purchase_list.id).zfill(10), "total_price": total_price})
 
 
 class GetGeneratedInvoiceView(APIView):
-    pass
     
-    # def get(self, request, *args, **kwargs):
-    #     purchase_id = self.kwargs.get("id")
-    #     purchase_list = PurchaseList.objects.filter(id=purchase_id).first()
-        
-        
-    #     html = loader.render_to_string('invoice.html', {"context": purchase_list})
-    #     # output= pdfkit.from_string(html, output_path=False)
-    #     # response = HttpResponse(content_type="application/pdf")
-    #     # response.write(output)
-    #     # return response
     
+    def get(self, request, *args, **kwargs):
+        purchase_id = self.kwargs.get("id")
+        purchase_list = PurchaseList.objects.get(id=purchase_id)
+        total_price = 0
+        for item in purchase_list.items.all():
+            total_price += (item.item.price*item.quantity)
+        html = loader.render_to_string('invoice.html', {"purchase_list": purchase_list, "invoice_id": str(purchase_list.id).zfill(10), "total_price": total_price})
+        output= pdfkit.from_string(html, output_path=False)
+        response = HttpResponse(content_type="application/pdf")
+        response.write(output)
+        return response
